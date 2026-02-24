@@ -14,12 +14,12 @@
 
 ## ℹ️ Overview
 
-A paragraph explaining your work, who you are, and why you made it.
+Port Scanner in Python.
 
 
 ### ✍️ Authors
 
-Mention who you are and link to your GitHub or organization's website.
+https://github.com/0x003b0
 
 
 ## 🚀 Usage
