@@ -1,4 +1,4 @@
-- Cos'è una porta?
+- Cos'è una porta? stato delle porte (open, close, filtered,...)
 - IP Address e Host
 - TCP vs UDP
 - Cos'è una socket?
