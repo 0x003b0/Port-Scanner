@@ -4,11 +4,24 @@
 ![Field](https://img.shields.io/badge/Field-Cybersecurity-black)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
 
-Simple overview of use/purpose.
+A simple Python port scanner that checks which ports are open on a target host.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+This project is a basic port scanner built using Python and the built-in `socket` module.
+
+The scanner attempts to connect to each port on a target host within a specified range. If a connection is successful, the port is considered open. Otherwise, it is closed or filtered.
+
+This project helps understand:
+
+- How TCP connections work
+- How port scanning works
+- Python networking with sockets
+- Basic cybersecurity tools development
+
+This tool is intended for **educational purposes only**.
+
+---
 
 ## Getting Started
 
