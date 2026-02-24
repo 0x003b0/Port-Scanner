@@ -1,7 +1,26 @@
+https://nmap.org/man/it/index.html
+https://it.wikipedia.org/wiki/Port_scanning
+
 Networking
-✔ Come comunicano i servizi nella rete
+✔ Come comunicano i servizi nella rete?
+I servizi per comunicare attraverso la rete hanno bisogno di:
+IP Address + Porta + Protocollo
+
+IP Address = identifica il PC nella rete (es: 142.184.78)
+Porta = identifica il servizio (es: 443)
+Protocollo = come comunicano (es: TCP)
+
 ✔ Cos'è una porta
+Una porta è un numero che identifica un servizio. [0-65535]
+
 ✔ stati delle porte (open, closed, filtered)
+- open: applicazione o servizio che accetta connessioni TCP, datagrammi UDP o associazioni SCTP. [Port is listening]
+Se invii un SYN ad una porta aperta, dovresti ricevere un SYN/ACK
+- closed: applicazione o servizio che NON accetta connessioni o ignora tutti i pacchetti in arrivo. [Port is not listening]
+Se invii un SYN ad una porta chiusa, riceverai un RST
+- filtered: applicazione o servizio che può accettare o no connessioni (non si può sapere), probabilmente dietro un firewall. [Port is (?)]
+Se invii un SYN ad una porta filtrata, i pacchetti vengono buttati via e non riceverai nessuna risposta (neanche un RST)
+
 ✔ IP address e Host
 ✔ TCP vs UDP
 ✔ Cos'è una socket
