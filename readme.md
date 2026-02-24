@@ -21,14 +21,17 @@ This project helps understand:
 
 This tool is intended for **educational purposes only**.
 
----
-
 ## Getting Started
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+Requirements:
+
+- Python X.Y or newer
+- Operating System: Windows, Linux, or macOS
+
+Standard library used:
+...
 
 ### Installing
 
