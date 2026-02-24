@@ -1,0 +1,5 @@
+- Cos'è una porta?
+- IP Address e Host
+- TCP vs UDP
+- Cos'è una socket?
+- Come funziona un port scanner?
