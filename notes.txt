@@ -1,5 +1,16 @@
-- Cos'è una porta? stato delle porte (open, close, filtered,...)
-- IP Address e Host
-- TCP vs UDP
-- Cos'è una socket?
-- Come funziona un port scanner?
+Networking
+✔ Come comunicano i servizi nella rete
+✔ Cos'è una porta
+✔ stati delle porte (open, closed, filtered)
+✔ IP address e Host
+✔ TCP vs UDP
+✔ Cos'è una socket
+✔ Come funziona un port scanner
+
+Python
+✔ socket module
+✔ socket.connect_ex()
+✔ socket.settimeout()
+✔ for loop
+✔ funzioni
+✔ try/except
