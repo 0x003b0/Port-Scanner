@@ -1,4 +1,4 @@
-# Port Scanner
+# 🔎 Port Scanner
 
 ![Security Tool](https://img.shields.io/badge/Purpose-Port%20Scanner-red)
 ![Field](https://img.shields.io/badge/Field-Cybersecurity-black)
