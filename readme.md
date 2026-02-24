@@ -1,5 +1,7 @@
 # Port Scanner
 
+![Security Tool](https://img.shields.io/badge/Purpose-Port%20Scanner-red)
+
 Simple overview of use/purpose.
 
 ## Description
