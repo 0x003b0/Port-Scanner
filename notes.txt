@@ -22,7 +22,28 @@ Se invii un SYN ad una porta chiusa, riceverai un RST
 Se invii un SYN ad una porta filtrata, i pacchetti vengono buttati via e non riceverai nessuna risposta (neanche un RST)
 
 ✔ IP address e Host
+IP Address = Internet Protocol Address
+IPv4 o IPv6
+
+L'Indirizzo IP Pubblico è un numero identificativo univoco assegnato ad ogni dispostivo connesso ad Internet.
+-- Ciò che ti identifica in rete, normalmente assegnato dal ISP (Wind, Tim, Vodafone, ...)
+-- Modificabile con VPN
+-- Se fai una richiesta a www.google.com con il telefono e 30 minuti dopo la fai con il PC, il server vede sempre lo stesso indirizzo IP 
+
+Indirizzo IP Privato è un numero identificativo assegnato ad ogni dispostivo nella rete azeindale o domestica. 
+-- Ciò che ti identifica nella rete interna, normalmente assegnato dal router o dal DHCP della rete locale
+-- Modificabile manualmente ma può creare conflitti con altri dispostivi
+-- Se l'amico A effettua una richiesta a www.google.com con il telefono con indirizzo IP privato XXX.YYY.ZZZ e l'amico B effettua la 
+stessa richiesta con indirizzo privato IP XXX.YYY.KKK, entrambi riceveranno una risposta dal Server di Google poichè il NAT smisterà 
+efficentemente le risposte.
+
+richiesta con indirizzo privato -> router + NAT -> trasforma indirizzo privato in pubblico 
+-> invio richiesta tramite internet -> Server riceve -> Server risponde -> invio richiesta tramite internet 
+-> ricevo richiesta router + NAT -> trasformo indirizzo pubblico in privato -> invio risposta al dispostivo
+
 ✔ TCP vs UDP
+Protocolli di trasporto
+
 ✔ Cos'è una socket
 ✔ Come funziona un port scanner
 
