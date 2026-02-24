@@ -1,53 +1,51 @@
-# 📦 My Package
+# Port Scanner
 
-(add your badges here)
+Simple overview of use/purpose.
 
-> *Your documentation is a direct reflection of your software, so hold it to the same standards.*
+## Description
 
+An in-depth paragraph about your project and overview of use.
 
-## 🌟 Highlights
+## Getting Started
 
-- Some functionality made easy!
-- This problem handled
-- etc.
+### Dependencies
 
+* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
+* ex. Windows 10
 
-## ℹ️ Overview
+### Installing
 
-Port Scanner in Python.
+* How/where to download your program
+* Any modifications needed to be made to files/folders
 
+### Executing program
 
-### ✍️ Authors
+* How to run the program
+* Step-by-step bullets
+```
+code blocks for commands
+```
+
+## Help
+
+Any advise for common problems or issues.
+```
+command to run if program contains helper info
+```
+
+## Authors
 
 https://github.com/0x003b0
 
+## License
 
-## 🚀 Usage
+This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 
-*Show off what your software looks like in action! Try to limit it to one-liners if possible and don't delve into API specifics.*
+## Acknowledgments
 
-```py
->>> import mypackage
->>> mypackage.do_stuff()
-'Oh yeah!'
-```
-
-
-## ⬇️ Installation
-
-Simple, understandable installation instructions!
-
-```bash
-pip install my-package
-```
-
-And be sure to specify any other minimum requirements like Python versions or operating systems.
-
-*You may be inclined to add development instructions here, don't.*
-
-
-## 💭 Feedback and Contributing
-
-Add a link to the Discussions tab in your repo and invite users to open issues for bugs/feature requests.
-
-This is also a great place to invite others to contribute in any ways that make sense for your project. Point people to your DEVELOPMENT and/or CONTRIBUTING guides if you have them.
+Inspiration, code snippets, etc.
+* [awesome-readme](https://github.com/matiassingers/awesome-readme)
+* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [dbader](https://github.com/dbader/readme-template)
+* [zenorocha](https://gist.github.com/zenorocha/4526327)
+* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
