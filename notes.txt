@@ -81,9 +81,33 @@ Sorgente -> Destinazione
 
 ✔ Come funziona un Port Scanner
 Network Tool che effettua uno scanner dell'Host Target e restitusce una lista delle porte con le relative informazioni.
-Cosa voglio che questo tool faccia?
+
+✔ Cosa voglio che questo tool faccia?
 1. EFFETTUARE SCANNER NELL'HOST TARGET
-2. RESTITUIRE INFO RELATIVE ALLE porte
+2. RESTITUIRE INFO RELATIVE ALLE PORTE
+
+
+
+✔ PROGRAMMAZIONE TOOL:
+Come fare?
+Per eseguire la scansione, il programma dovrà inviare dei pacchetti TCP all'host target.
+Quindi cercare di stabilire una connessione:
+1. Invio di TCP packets con richiesta di tipo SYN all'host target (la socket permette di inviare pacchetti)
+2. Aspettare pacchetto di ricezione dell'host target ed elaborare informazioni
+
+Per farlo ho bisogno della Socket TCP:
+Devo creare una socket e implementare le funzioni.
+Elaborare le informazioni ricevute come mi pare.
+
+Quindi:
+1. Il tool crea una TCP Socket
+2. Il SO invia una pacchetto SYN all'host target
+3. Il target risponde
+4. Elaborazione delle informazioni di risposta
+
+
+
+
 
 Python
 ✔ socket module
