@@ -100,7 +100,7 @@ Devo creare una socket e implementare le funzioni.
 Elaborare le informazioni ricevute come mi pare.
 
 Quindi:
-1. Il tool crea una TCP Socket
+1. Il programma crea una TCP Socket
 2. Il SO invia una pacchetto SYN all'host target
 3. Il target risponde
 4. Elaborazione delle informazioni di risposta
