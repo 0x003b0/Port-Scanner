@@ -13,13 +13,27 @@ Protocollo = come comunicano (es: TCP)
 ✔ Cos'è una porta
 Una porta è un numero che identifica un servizio. [0-65535]
 
+22   SSH
+80   HTTP
+443  HTTPS
+21   FTP
+25   SMTP
+
 ✔ stati delle porte (open, closed, filtered)
 - open: applicazione o servizio che accetta connessioni TCP, datagrammi UDP o associazioni SCTP. [Port is listening]
 Se invii un SYN ad una porta aperta, dovresti ricevere un SYN/ACK
+Client -> SYN
+Server -> SYN/ACK
+Client <- ACK
+
 - closed: applicazione o servizio che NON accetta connessioni o ignora tutti i pacchetti in arrivo. [Port is not listening]
 Se invii un SYN ad una porta chiusa, riceverai un RST
+
 - filtered: applicazione o servizio che può accettare o no connessioni (non si può sapere), probabilmente dietro un firewall. [Port is (?)]
 Se invii un SYN ad una porta filtrata, i pacchetti vengono buttati via e non riceverai nessuna risposta (neanche un RST)
+Client -> SYN
+Firewall - (blocca)
+Client <- nessuna risposta
 
 ✔ IP address e Host
 IP Address = Internet Protocol Address
@@ -37,15 +51,39 @@ Indirizzo IP Privato è un numero identificativo assegnato ad ogni dispostivo ne
 stessa richiesta con indirizzo privato IP XXX.YYY.KKK, entrambi riceveranno una risposta dal Server di Google poichè il NAT smisterà 
 efficentemente le risposte.
 
+Percorso:
 richiesta con indirizzo privato -> router + NAT -> trasforma indirizzo privato in pubblico 
 -> invio richiesta tramite internet -> Server riceve -> Server risponde -> invio richiesta tramite internet 
 -> ricevo richiesta router + NAT -> trasformo indirizzo pubblico in privato -> invio risposta al dispostivo
 
 ✔ TCP vs UDP
-Protocolli di trasporto
+Protocolli di trasporto (livello 4 "Trasport Layer" - OSI Model)
+- TCP (Transmission Control Protocol):
+Protcollo di trasporto più affidabile.
+Prima dell'invio di un pacchetto, viene stabilita una connessione tra i due endpoint tramite Three-Way Handshake.
+Quando il pacchetto viene ricevuto dal Server, quest'ultimo invia una conferma (ACK) terminando la connessione (FIN).
+(es: TCP necessario per messaggistica, e-mail, altro..)
 
-✔ Cos'è una socket
-✔ Come funziona un port scanner
+- UDP (User Datagram Protocol):
+Protocollo di trasporto meno affidabile ma più veloce.
+Non stabilisce una connessione ma invia i pacchetti direttamente, quelli persi saranno perduti per sempre. Il mittente non riceve nessuna
+notifica di consegna o perdita del pacchetto.
+(es: UDP necessaria per streaming video/audio, videogames online)
+
+✔ Cos'è una Socket
+Socket vuol dire "presa" in italiano ed è ciò che serve a due processi su endpoint differenti per comunicare.
+Senza Socket i due processi non possono comunicare!
+Ad ogni socket viene associato un IP Address e il numero di porta:
+[IP_ADDRESS]:[PORT]
+
+Sorgente -> Destinazione
+192.168.1.10:54321 → 142.250.184.78:443 TCP
+
+✔ Come funziona un Port Scanner
+Network Tool che effettua uno scanner dell'Host Target e restitusce una lista delle porte con le relative informazioni.
+Cosa voglio che questo tool faccia?
+1. EFFETTUARE SCANNER NELL'HOST TARGET
+2. RESTITUIRE INFO RELATIVE ALLE porte
 
 Python
 ✔ socket module
