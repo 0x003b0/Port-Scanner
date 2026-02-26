@@ -24,8 +24,8 @@ def RANGE_target(ip_target_input):
 
     #conversione da str a int perchè senno il ciclo non funziona (range prende solo interi)
 
-    print("\nPORT     STATUS      SERVICE")
-    print("─────    ──────      ───────")
+    print("\nPORT     STATUS      SERVICE         VERSION")
+    print("─────    ──────      ───────         ─────────────────")
 
     #ora deve scan le porte inserite dall'utente
     for port in range(int(first_port), int(last_port)):
@@ -36,16 +36,29 @@ def RANGE_target(ip_target_input):
             service = socket.getservbyport(port)
         except:
             service = "unknown"
-        
+            
         try:
             new_s.connect((ip_target_input, port))
             status = "OPEN"
-            print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
+            
+            try:
+                banner = new_s.recv(1024).decode().strip()
+            except:
+                banner = "No banner detected"
+
+            print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
         except socket.error:
             status = "CLOSED"
-            print(colorama.Fore.RED + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
+            banner = "   -   "
+            print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
         except socket.timeout:
             status = "TIMEOUT/FILTERED"
-            print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
+
+            try:
+                banner = new_s.recv(1024).decode.strip()
+            except:
+                banner = "No banner detected"
+
+            print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
         finally:
             new_s.close()
