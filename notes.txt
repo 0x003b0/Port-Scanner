@@ -86,8 +86,6 @@ Network Tool che effettua uno scanner dell'Host Target e restitusce una lista de
 1. EFFETTUARE SCANNER NELL'HOST TARGET
 2. RESTITUIRE INFO RELATIVE ALLE PORTE
 
-
-
 ✔ PROGRAMMAZIONE TOOL:
 Come fare?
 Per eseguire la scansione, il programma dovrà inviare dei pacchetti TCP all'host target.
@@ -104,9 +102,6 @@ Quindi:
 2. Il SO invia una pacchetto SYN all'host target
 3. Il target risponde
 4. Elaborazione delle informazioni di risposta
-
-
-
 
 
 Python
