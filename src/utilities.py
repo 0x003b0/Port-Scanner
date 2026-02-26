@@ -47,10 +47,12 @@ def RANGE_target(ip_target_input):
                 banner = "No banner detected"
 
             print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
+
         except socket.error:
             status = "CLOSED"
             banner = "   -   "
             print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
+            
         except socket.timeout:
             status = "TIMEOUT/FILTERED"
 
