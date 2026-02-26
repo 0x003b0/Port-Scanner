@@ -13,9 +13,16 @@ s.settimeout(5)
 def program_title():
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
     print(ascii_banner)
+    print("=" * 50)
+    print("Version: 0.1.0")
+    print("Purpose: Educational Tool")
+    print("Author: 0x003b0")
+    print("Github: https://github.com/0x003b0")
+    #tool-type: network, cybersecurity tool....
+    print("=" * 50)
 
 def show_menu():
-    print("[1] Scan a specific port")
+    print("\n[1] Scan a specific port")
     print("[2] Scan a range of ports")
     print("[3] Exit\n")
 

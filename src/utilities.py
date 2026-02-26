@@ -24,19 +24,28 @@ def RANGE_target(ip_target_input):
 
     #conversione da str a int perchè senno il ciclo non funziona (range prende solo interi)
 
+    print("\nPORT     STATUS      SERVICE")
+    print("─────    ──────      ───────")
+
     #ora deve scan le porte inserite dall'utente
     for port in range(int(first_port), int(last_port)):
         #intenta connessione su ogni porta; devo creare sempre una nuova socket, una per ogni porta con cui sto cercando di connettermi
         new_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         new_s.settimeout(1)
-
+        try:
+            service = socket.getservbyport(port)
+        except:
+            service = "unknown"
+        
         try:
             new_s.connect((ip_target_input, port))
-            #print(colorama.Fore.GREEN + "Connessione stabilita con successo!")
-            print(colorama.Fore.GREEN + f"Port {port} is open" + colorama.Style.RESET_ALL)
+            status = "OPEN"
+            print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
         except socket.error:
-            print(colorama.Fore.RED + f"Port {port} is close" + colorama.Style.RESET_ALL)
+            status = "CLOSED"
+            print(colorama.Fore.RED + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
         except socket.timeout:
-            print(colorama.Fore.YELLOW + f"Port {port} timeout" + colorama.Style.RESET_ALL)
+            status = "TIMEOUT/FILTERED"
+            print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service}" + colorama.Style.RESET_ALL)
         finally:
             new_s.close()
