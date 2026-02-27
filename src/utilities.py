@@ -1,5 +1,6 @@
 import socket
 import colorama
+import banner_grabbing
 
 def IP_target():
     target = input(colorama.Fore.CYAN + "[IP TARGET]: " + colorama.Style.RESET_ALL)
@@ -40,7 +41,6 @@ def RANGE_target(ip_target_input):
         try:
             new_s.connect((ip_target_input, port))
             status = "OPEN"
-            
             try:
                 banner = new_s.recv(1024).decode().strip()
             except:
@@ -55,12 +55,12 @@ def RANGE_target(ip_target_input):
             
         except socket.timeout:
             status = "TIMEOUT/FILTERED"
-
             try:
                 banner = new_s.recv(1024).decode.strip()
             except:
                 banner = "No banner detected"
 
             print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
+        
         finally:
             new_s.close()

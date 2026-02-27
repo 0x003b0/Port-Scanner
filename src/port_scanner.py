@@ -7,8 +7,8 @@ import utilities
 colorama.init()
 
 #Creating Socket - AF_INET: IPv4, SOCK_STREAM: TCP
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.settimeout(5)
+#s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#s.settimeout(5)
 
 def program_title():
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
@@ -34,11 +34,31 @@ if user_choice == 1:
     ip = utilities.IP_target()
     port = utilities.PORT_target()
 
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(5)
+
     #Connessione all'Host target
     try:
         s.connect((ip, port))
-        #print(colorama.Fore.GREEN + "Connessione stabilita con successo!")
         print(colorama.Fore.GREEN + f"Port {port} is open" + colorama.Style.RESET_ALL)
+        
+        #PER RICEVERE IL BANNER, CON ALCUNI SERVIZI FUNZIONA SEMPLICEMENTE IL banner = s.recv(1024) MA PER ALTRI NO, DEVI INVIARE UN RICHIESTA TU!
+        #request = f"HEAD / HTTP/1.1\r\nHost: {ip}\r\nConnection: close\r\n\r\n"
+        #s.send(request.encode())
+
+
+        try: #se servizio invia automaticamente banner
+            banner = s.recv(1024).decode().split()
+            print(banner)
+        except socket.error: #se il servizio richiede una richiesta per inviarti il banner
+            s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+            banner = s.recv(1024).decode().split()
+            print(banner)
+        except socket.timeout:
+            s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+            banner = s.recv(1024)
+            print(banner)
+
     except socket.error:
         print(colorama.Fore.RED + f"Port {port} is close" + colorama.Style.RESET_ALL)
     except socket.timeout:
@@ -47,6 +67,10 @@ if user_choice == 1:
         s.close()  
 
 elif user_choice == 2:
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(5)
+
     ip_target = utilities.IP_target()
     utilities.RANGE_target(ip_target)
 
