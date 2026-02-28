@@ -16,5 +16,22 @@ def banner_grabbing(ip, port, socket_input):
     #QUALI DI QUESTI INVIANO BANNER AUTOMATICAMENTE?
     #22, 23, 21, 25, 587, 3306, 110, 143 
 
+    ###################################################################################################
+    #PORTA 80
+    ###################################################################################################
+        #PER RICEVERE IL BANNER, CON ALCUNI SERVIZI FUNZIONA SEMPLICEMENTE IL banner = s.recv(1024) MA PER ALTRI NO, DEVI INVIARE UN RICHIESTA TU!
+        #request = f"HEAD / HTTP/1.1\r\nHost: {ip}\r\nConnection: close\r\n\r\n"
+        #s.send(request.encode())
+    try: #se servizio invia automaticamente banner
+        banner = s.recv(1024).decode().split()
+        print(banner)
+    except socket.error: #se il servizio richiede una richiesta per inviarti il banner
+        s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+        banner = s.recv(1024).decode().split()
+        print(banner)
+    except socket.timeout:
+        s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+        banner = s.recv(1024)
+        print(banner)
 
     print(banner)
