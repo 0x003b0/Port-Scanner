@@ -1,5 +1,6 @@
 import socket
 import colorama
+import errno
 import banner_grabbing
 
 #PURPOSE: Save IP Address Target inserted by user
@@ -18,21 +19,46 @@ def PORT_target():
         return PORT_target() #Richiama la funzione se la porta inserita non è valida
     return port
 
-#PURPOSE: Scan one single port and print result
-#REVIEW: Questo codice stampa anche i risultati, dovrebbe essere una funzione a parte!
+
+#PURPOSE: Print results of scan
+def print_results(port, status_connection):
+    print("\nPORT     STATUS      SERVICE         VERSION")
+    print("─────    ──────      ───────         ─────────────────")
+    
+    if status_connection == 0:
+        status = "OPEN"
+        try:
+            service = socket.getservbyport(port)
+        except:
+            service = "unknown"
+
+        banner = "No banner detected" #TODO sviluppa funzione banner
+        print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
+    
+    elif status_connection == errno.ECONNREFUSED:
+        status = "CLOSED"
+        banner = "   -   "
+        print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
+
+    elif status_connection in (errno.ETIMEDOUT, errno.EHOSTUNREACH):
+        status = "TIMEOUT/FILTERED"
+        banner = "   -   "
+        print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
+
+    else:
+        status = f"ERROR (Codice: {status_connection})"
+        print(status)
+
+
+#PURPOSE: Scan one single port
 def scan_port(ip, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(5)
 
-    try:
-        s.connect((ip, port))
-        print(colorama.Fore.GREEN + f"Port {port} is open")
-    except socket.error:
-        print(colorama.Fore.RED + f"Port {port} is close")
-    except socket.timeout:
-        print(colorama.Fore.YELLOW + "Connection timed out. The target may be offline or the port may be filtered or closed.")
-    finally:
-        s.close()
+    connection_result = s.connect_ex((ip, port)) 
+    print_results(port, connection_result)
+    
+    s.close()
 
 #PURPOSE: Save and Parsing Port Range Target inserted by user
 def PORT_RANGE_target():
@@ -55,35 +81,38 @@ def scan_ports(ip, first, last):
         new_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         new_s.settimeout(1)
 
-        try:
-            service = socket.getservbyport(port)
-        except:
-            service = "unknown"
+        connection_result = new_s.connect_ex((ip, port))
+        print_results(port, connection_result)
+        new_s.close()
+
+        # try:
+        #     service = socket.getservbyport(port)
+        # except:
+        #     service = "unknown"
             
-        try:
-            new_s.connect((ip, port))
-            status = "OPEN"
-            try:
-                #TODO:Sviluppare funzione banner
-                banner = new_s.recv(1024).decode().strip()
-            except:
-                banner = "No banner detected"
+        # try:
+        #     new_s.connect((ip, port))
+        #     status = "OPEN"
+        #     try:
+        #         banner = new_s.recv(1024).decode().strip()
+        #     except:
+        #         banner = "No banner detected"
 
-            print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
+        #     print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
 
-        except socket.error:
-            status = "CLOSED"
-            banner = "   -   "
-            print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
+        # except socket.error:
+        #     status = "CLOSED"
+        #     banner = "   -   "
+        #     print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
             
-        except socket.timeout:
-            status = "TIMEOUT/FILTERED"
-            try:
-                banner = new_s.recv(1024).decode.strip()
-            except:
-                banner = "No banner detected"
+        # except socket.timeout:
+        #     status = "TIMEOUT/FILTERED"
+        #     try:
+        #         banner = new_s.recv(1024).decode.strip()
+        #     except:
+        #         banner = "No banner detected"
 
-            print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
+        #     print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
         
-        finally:
-            new_s.close()
+        # finally:
+        #     new_s.close()
