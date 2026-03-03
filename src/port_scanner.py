@@ -1,6 +1,5 @@
 import colorama
 import pyfiglet
-import socket
 import sys
 import utilities
 
