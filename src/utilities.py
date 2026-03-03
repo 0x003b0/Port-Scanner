@@ -20,10 +20,8 @@ def PORT_target():
     return port
 
 
-#PURPOSE: Print results of scan
+#PURPOSE: Print results of a scan
 def print_results(port, status_connection):
-    
-    
     if status_connection == 0:
         status = "OPEN"
         try:
@@ -64,7 +62,7 @@ def scan_port(ip, port):
 
     connection_result = s.connect_ex((ip, port)) 
 
-    print("\nPORT     STATUS      SERVICE         VERSION")
+    print("\nPORT     STATE       SERVICE         VERSION")
     print("─────    ────────    ───────         ─────────────────")
 
     print_results(port, connection_result)
@@ -83,7 +81,7 @@ def PORT_RANGE_target():
 #PURPOSE: Scan multiple ports
 def scan_ports(ip, first, last):
 
-    print("\nPORT     STATUS      SERVICE         VERSION")
+    print("\nPORT     STATE       SERVICE         VERSION")
     print("─────    ────────    ───────         ─────────────────")
 
     for port in range(int(first), int(last) + 1):
