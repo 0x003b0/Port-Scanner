@@ -22,26 +22,34 @@ def show_menu():
     print("[2] Scan a range of ports")
     print("[3] Exit\n")
 
+#PURPOSE: Menu user choice
+#FIXME: Qui user_choice() fa troppe cose! Dividi le responsabilità
+def user_choice():
+    try:
+        user_choice = int(input(colorama.Fore.CYAN + "[>]: " + colorama.Style.RESET_ALL))
+
+        if user_choice == 1:
+            ip = utilities.get_IP_target()
+            port = utilities.get_port_target()
+            utilities.scan_port(ip,port)
+
+        elif user_choice == 2:
+            ip = utilities.get_IP_target()
+            first_port, last_port = utilities.get_port_range_target()
+            utilities.scan_ports(ip, first_port, last_port)
+
+        elif user_choice == 3:
+            print('Exiting...')
+            sys.exit()
+
+        else:
+            print(colorama.Fore.RED + "[ERROR] Select option 1, 2 or 3.\n")
+            sys.exit()
+
+    except (ValueError):
+        print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <option>.\n")
+
+
 program_title()
 show_menu()
-
-#PURPOSE: Menu user choise
-user_choice = int(input(colorama.Fore.CYAN + "[>]: " + colorama.Style.RESET_ALL))
-
-if user_choice == 1:
-    ip = utilities.get_IP_target()
-    port = utilities.get_port_target()
-    utilities.scan_port(ip,port)
-
-elif user_choice == 2:
-    ip = utilities.get_IP_target()
-    first_port, last_port = utilities.get_port_range_target()
-    utilities.scan_ports(ip, first_port, last_port)
-
-elif user_choice == 3:
-    print('Exiting...')
-    sys.exit()
-
-else:
-    print('Select 1, 2, or 3')
-    sys.exit()
+user_choice()
