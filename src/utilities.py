@@ -22,8 +22,7 @@ def PORT_target():
 
 #PURPOSE: Print results of scan
 def print_results(port, status_connection):
-    print("\nPORT     STATUS      SERVICE         VERSION")
-    print("─────    ──────      ───────         ─────────────────")
+    
     
     if status_connection == 0:
         status = "OPEN"
@@ -35,15 +34,23 @@ def print_results(port, status_connection):
         banner = "No banner detected" #TODO sviluppa funzione banner
         print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
     
-    elif status_connection == errno.ECONNREFUSED:
+    elif status_connection in (errno.ECONNREFUSED, 10061):
         status = "CLOSED"
         banner = "   -   "
+        try:
+            service = socket.getservbyport(port)
+        except:
+            service = "unknown"
         print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
 
-    elif status_connection in (errno.ETIMEDOUT, errno.EHOSTUNREACH):
-        status = "TIMEOUT/FILTERED"
+    elif status_connection in (errno.ETIMEDOUT, errno.EHOSTUNREACH, 10060, 10035):
+        status = "FILTERED"
         banner = "   -   "
-        print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
+        try:
+            service = socket.getservbyport(port)
+        except:
+            service = "unknown"
+        print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
 
     else:
         status = f"ERROR (Codice: {status_connection})"
@@ -56,6 +63,10 @@ def scan_port(ip, port):
     s.settimeout(5)
 
     connection_result = s.connect_ex((ip, port)) 
+
+    print("\nPORT     STATUS      SERVICE         VERSION")
+    print("─────    ────────    ───────         ─────────────────")
+
     print_results(port, connection_result)
     
     s.close()
@@ -69,50 +80,17 @@ def PORT_RANGE_target():
     last_port = user_ports[1]
     return first_port, last_port
 
-#PURPOSE: Scan multiple ports and print results
-#REVIEW: Questo codice stampa anche i risultati, dovrebbe essere una funzione a parte!
+#PURPOSE: Scan multiple ports
 def scan_ports(ip, first, last):
 
     print("\nPORT     STATUS      SERVICE         VERSION")
-    print("─────    ──────      ───────         ─────────────────")
+    print("─────    ────────    ───────         ─────────────────")
 
     for port in range(int(first), int(last) + 1):
     #devo creare sempre una nuova socket, una per ogni porta con cui sto cercando di connettermi
         new_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        new_s.settimeout(1)
+        new_s.settimeout(3)
 
         connection_result = new_s.connect_ex((ip, port))
         print_results(port, connection_result)
         new_s.close()
-
-        # try:
-        #     service = socket.getservbyport(port)
-        # except:
-        #     service = "unknown"
-            
-        # try:
-        #     new_s.connect((ip, port))
-        #     status = "OPEN"
-        #     try:
-        #         banner = new_s.recv(1024).decode().strip()
-        #     except:
-        #         banner = "No banner detected"
-
-        #     print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
-
-        # except socket.error:
-        #     status = "CLOSED"
-        #     banner = "   -   "
-        #     print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
-            
-        # except socket.timeout:
-        #     status = "TIMEOUT/FILTERED"
-        #     try:
-        #         banner = new_s.recv(1024).decode.strip()
-        #     except:
-        #         banner = "No banner detected"
-
-        #     print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<12}{banner}" + colorama.Style.RESET_ALL)
-        
-        # finally:
-        #     new_s.close()

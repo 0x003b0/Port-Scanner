@@ -111,3 +111,16 @@ Python
 ✔ for loop
 ✔ funzioni
 ✔ try/except
+
+
+Come testare le porte su una maccina LINUX:
+- Per rendere la porta CLOSE:
+sudo iptables -A INPUT -p tcp --dport [PORT] -j REJECT
+- Per rendere la porta FILTERED:
+sudo iptables -A INPUT -p tcp --dport [PORT] -j DROP
+- Per rendere la porta OPEN:
+nc -lvp [PORT]
+
+Ora per resettare le modifiche (al posto di -A metti -D):
+sudo iptables -D INPUT -p tcp --dport [PORT] -j REJECT
+sudo iptables -D INPUT -p tcp --dport [PORT] -j DROP
