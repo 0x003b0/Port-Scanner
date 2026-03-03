@@ -37,7 +37,7 @@ if user_choice == 1:
 
 elif user_choice == 2:
     ip = utilities.IP_target()
-    first_port, last_port = utilities.PORT_RANGE_target()
+    first_port, last_port = utilities.get_port_range_target()
     utilities.scan_ports(ip, first_port, last_port)
 
 elif user_choice == 3:

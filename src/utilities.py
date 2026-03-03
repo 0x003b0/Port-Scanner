@@ -20,7 +20,7 @@ def is_valid_domain(domain):
     except:
         return False
 
-#PURPOSE: Ask user for a valid IP Address or Domain target
+#PURPOSE: Ask user for IP Address or Domain target
 def IP_target():
     while True:
         target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() è per rimuovere spazi prima e dopo l'input nel caso ci fossero
@@ -32,7 +32,7 @@ def IP_target():
                 continue
         print(colorama.Fore.RED + "[ERROR] IP Address value cannot be empty.\n")
 
-#PURPOSE: Save Port Target inserted by user
+#PURPOSE: Ask user for Port target
 def PORT_target():
     while True:
         try:
@@ -93,15 +93,35 @@ def scan_port(ip, port):
     
     s.close()
 
-#PURPOSE: Save and Parsing Port Range Target inserted by user
-def PORT_RANGE_target():
-    #Richiede all'utente di inserire un intervallo di porte e restituisce una lista di porte valide
-    user_range_input = input(colorama.Fore.CYAN + "[PORT RANGE TARGETS] (ex: 40-1000): " + colorama.Style.RESET_ALL)
-    user_ports = user_range_input.split("-")
-    first_port = user_ports[0]
-    last_port = user_ports[1]
-    return first_port, last_port
+#PURPOSE: Check if ports inserted are in [1-65535]
+def is_valid_range(port1, port2):
+    if (1 <= port1 <= 65535) and (1 <= port2 <= 65535) and (port1 <= port2):
+        return True
+    else:
+        return False
 
+#PURPOSE: Ask user for a Port Range Target
+def get_port_range_target():
+    while True:
+        user_range_input = input(colorama.Fore.CYAN + "[PORT RANGE TARGETS] (e.g.: 40-1000): " + colorama.Style.RESET_ALL).strip()
+
+        try:
+            user_ports = user_range_input.split("-")
+
+            if len(user_ports) != 2: #nel caso scrivesse 10-20-22 invece di 10-20
+                raise ValueError
+
+            first_port = int(user_ports[0])
+            last_port = int(user_ports[1])
+
+            if is_valid_range(first_port, last_port):
+                return first_port, last_port
+            else:
+                print(colorama.Fore.RED + "[ERROR] Invalid port range. Valid ports must be between 1 and 65535.\n")
+
+        except (ValueError, IndexError):
+            print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <start>-<end> (e.g. 40-100) \n")
+        
 #PURPOSE: Scan multiple ports
 def scan_ports(ip, first, last):
 
