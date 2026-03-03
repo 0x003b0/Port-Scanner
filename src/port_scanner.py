@@ -27,16 +27,15 @@ program_title()
 show_menu()
 
 #PURPOSE: Menu user choise
-#TODO: Create funzione menu per pulire codice!
-user_choice = int(input(colorama.Fore.CYAN + "[>]: "))
+user_choice = int(input(colorama.Fore.CYAN + "[>]: " + colorama.Style.RESET_ALL))
 
 if user_choice == 1:
-    ip = utilities.IP_target()
-    port = utilities.PORT_target()
+    ip = utilities.get_IP_target()
+    port = utilities.get_port_target()
     utilities.scan_port(ip,port)
 
 elif user_choice == 2:
-    ip = utilities.IP_target()
+    ip = utilities.get_IP_target()
     first_port, last_port = utilities.get_port_range_target()
     utilities.scan_ports(ip, first_port, last_port)
 
