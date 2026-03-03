@@ -1,24 +1,48 @@
 import socket
 import colorama
 import errno
+import ipaddress
 import banner_grabbing
 
-#PURPOSE: Save IP Address Target inserted by user
+#PURPOSE: Check if IP Address inserted by user is valid
+def is_valid_ip(addr):
+    try:
+        ipaddress.ip_address(addr) #Controllo che che l'IP inserito sia un indirizzo IP valido
+        return True
+    except:
+        return False
+
+#PURPOSE: Check is domain name iserted by user is valid
+def is_valid_domain(domain):
+    try:
+        socket.gethostbyname(domain)
+        return True
+    except:
+        return False
+
+#PURPOSE: Save One IP Address Target inserted by user
 def IP_target():
-    target = input(colorama.Fore.CYAN + "[IP TARGET]: " + colorama.Style.RESET_ALL)
-    if target == "":
-        print("Indirizzo IP non valido. Inserisci un indirizzo IP valido.")
-        return IP_target() #Richiama la funzione se l'indirizzo IP inserito è vuoto
-    return target
+    while True:
+        target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() è per rimuovere spazi prima e dopo l'input nel caso ci fossero
+        if target: #se ha inserito qualcosa, allora esegue il codice dentro l'if
+            if is_valid_ip(target) or is_valid_domain(target):
+                return target
+            else:
+                print(colorama.Fore.RED + "[ERROR] Invalid IP Address or domain name.\n")
+                continue
+        print(colorama.Fore.RED + "[ERROR] IP Address value cannot be empty.\n")
 
 #PURPOSE: Save Port Target inserted by user
 def PORT_target():
-    port = int(input(colorama.Fore.CYAN + "[PORT TARGET]: " + colorama.Style.RESET_ALL))
-    if port < 1 or port > 65535:
-        print("Porta non valida. Inserisci un numero tra 1 e 65535.")
-        return PORT_target() #Richiama la funzione se la porta inserita non è valida
-    return port
-
+    while True:
+        try:
+           port = int(input(colorama.Fore.CYAN + "[PORT TARGET]: " + colorama.Style.RESET_ALL))
+           if port >= 1 and port <= 65535:
+               return port
+           else:
+               print(colorama.Fore.RED + "[ERROR] Invalid port. Please enter a number between 1 and 65535\n")
+        except:
+            print(colorama.Fore.RED + "[ERROR] Port value cannot be empty.\n")
 
 #PURPOSE: Print results of a scan
 def print_results(port, status_connection):
