@@ -20,7 +20,7 @@ def is_valid_domain(domain):
     except:
         return False
 
-#PURPOSE: Save One IP Address Target inserted by user
+#PURPOSE: Ask user for a valid IP Address or Domain target
 def IP_target():
     while True:
         target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() è per rimuovere spazi prima e dopo l'input nel caso ci fossero
