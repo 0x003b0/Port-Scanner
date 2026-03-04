@@ -28,16 +28,13 @@ def handle_user_choice(user_choose):
         ip = utilities.get_IP_target()
         port = utilities.get_port_target()
         utilities.scan_port(ip,port)
-
     elif user_choose == 2:
         ip = utilities.get_IP_target()
         first_port, last_port = utilities.get_port_range_target()
         utilities.scan_ports(ip, first_port, last_port)
-
     elif user_choose == 3:
         print('Exiting...')
         sys.exit()
-
     else:
         print(colorama.Fore.RED + "[ERROR] Select option 1, 2 or 3.\n")
         sys.exit()
@@ -48,7 +45,6 @@ def get_menu_user_choice():
     try:
         user_choice = int(input(colorama.Fore.CYAN + "[>]: " + colorama.Style.RESET_ALL))
         handle_user_choice(user_choice)
-        
     except (ValueError):
         print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <option>.\n")
 
