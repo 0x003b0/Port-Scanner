@@ -155,3 +155,6 @@ port_scanner/
 ├── input_handlers.py # get_IP_target, get_port_target, get_port_range_target
 ├── output.py         # print_results, print_scanner_header
 └── banner_grabbing.py # già ce l'hai
+
+scanner.py:
+qui gestisco tutte le funzioni relative agli scan

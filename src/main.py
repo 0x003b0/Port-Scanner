@@ -1,7 +1,8 @@
 import colorama
 import pyfiglet
 import sys
-import utilities
+import scanner
+import input_handlers
 
 colorama.init(autoreset=True)
 
@@ -25,13 +26,13 @@ def show_menu():
 #PURPOSE: Handle the user choose
 def handle_user_choice(user_choose):
     if user_choose == 1:
-        ip = utilities.get_IP_target()
-        port = utilities.get_port_target()
-        utilities.scan_port(ip, port)
+        ip = input_handlers.get_IP_target()
+        port = input_handlers.get_port_target()
+        scanner.scan_port(ip, port)
     elif user_choose == 2:
-        ip = utilities.get_IP_target()
-        first_port, last_port = utilities.get_port_range_target()
-        utilities.scan_ports(ip, first_port, last_port)
+        ip = input_handlers.get_IP_target()
+        first_port, last_port = input_handlers.get_port_range_target()
+        scanner.scan_ports(ip, first_port, last_port)
     elif user_choose == 3:
         print('Exiting...')
         sys.exit()
