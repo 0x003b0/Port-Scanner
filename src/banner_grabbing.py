@@ -1,9 +1,7 @@
 import socket
 
-def banner_grabbing(ip, port, socket_input):
-    banner = socket_input.recv(1024).decode().strip()
 
-    #codice banner grabbing
+#codice banner grabbing
     #per farlo bene, va fatto personalizzato, quindi creare richieste diverse a seconda del servizio associato alla porta
     #inziamo con le top 10:
     #1. WEB: 80,443, 8080, 8443
@@ -22,16 +20,21 @@ def banner_grabbing(ip, port, socket_input):
         #PER RICEVERE IL BANNER, CON ALCUNI SERVIZI FUNZIONA SEMPLICEMENTE IL banner = s.recv(1024) MA PER ALTRI NO, DEVI INVIARE UN RICHIESTA TU!
         #request = f"HEAD / HTTP/1.1\r\nHost: {ip}\r\nConnection: close\r\n\r\n"
         #s.send(request.encode())
-    try: #se servizio invia automaticamente banner
-        banner = s.recv(1024).decode().split()
-        print(banner)
-    except socket.error: #se il servizio richiede una richiesta per inviarti il banner
-        s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
-        banner = s.recv(1024).decode().split()
-        print(banner)
-    except socket.timeout:
-        s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
-        banner = s.recv(1024)
-        print(banner)
 
-    print(banner)
+
+
+# def banner_grabbing(ip, port, socket_input):
+#     banner = socket_input.recv(1024).decode().strip()
+#     try: #se servizio invia automaticamente banner
+#         banner = s.recv(1024).decode().split()
+#         print(banner)
+#     except socket.error: #se il servizio richiede una richiesta per inviarti il banner
+#         s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+#         banner = s.recv(1024).decode().split()
+#         print(banner)
+#     except socket.timeout:
+#         s.send(b"HELP\r\n\r\n") #perchè scritto cosi?
+#         banner = s.recv(1024)
+#         print(banner)
+
+#     print(banner)
