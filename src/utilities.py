@@ -89,8 +89,8 @@ def scan_port(ip, port):
     connection_result = s.connect_ex((ip, port)) 
 
     print_scanner_header()
-
     print_results(port, connection_result)
+    
     s.close() #REVIEW:con l'istruzione with si elimina questa riga, chiudendo automaticamente la socket, mettila più avanti
 
 #PURPOSE: Check if ports inserted are in [1-65535]
