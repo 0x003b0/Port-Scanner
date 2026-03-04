@@ -146,3 +146,12 @@ In pratica except: è come dire
 "cattura qualsiasi cosa esista", 
 mentre except Exception: è come dire 
 "cattura solo gli errori di programma, lascia passare i segnali di sistema". 
+
+STRUTTURA PROGETTO:
+port_scanner/
+├── main.py
+├── scanner.py        # scan_port, scan_ports, create_new_socket
+├── validators.py     # is_valid_ip, is_valid_domain, is_valid_range
+├── input_handlers.py # get_IP_target, get_port_target, get_port_range_target
+├── output.py         # print_results, print_scanner_header
+└── banner_grabbing.py # già ce l'hai

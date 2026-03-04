@@ -90,7 +90,7 @@ def scan_port(ip, port):
 
     print_scanner_header()
     print_results(port, connection_result)
-    
+
     s.close() #REVIEW:con l'istruzione with si elimina questa riga, chiudendo automaticamente la socket, mettila più avanti
 
 #PURPOSE: Check if ports inserted are in [1-65535]
@@ -122,7 +122,7 @@ def get_port_range_target():
         except (ValueError, IndexError):
             print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <start>-<end> (e.g. 40-100).\n")
         
-#PURPOSE: Scan multiple ports
+#PURPOSE: Scan multiple ports / Creare multiple connection with ports
 def scan_ports(ip, first, last):
     print_scanner_header()
 
