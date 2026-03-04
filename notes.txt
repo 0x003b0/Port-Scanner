@@ -124,3 +124,25 @@ nc -lvp [PORT]
 Ora per resettare le modifiche (al posto di -A metti -D):
 sudo iptables -D INPUT -p tcp --dport [PORT] -j REJECT
 sudo iptables -D INPUT -p tcp --dport [PORT] -j DROP
+
+
+ECCEZIONI IN PYTHON:
+BaseException
+├── KeyboardInterrupt      ← Ctrl+C
+├── SystemExit             ← sys.exit()
+├── GeneratorExit
+└── Exception              ← tutti gli errori "normali"
+    ├── ValueError
+    ├── TypeError
+    ├── OSError
+    ├── IndexError
+    └── ... (tutti gli altri)
+
+
+except: cattura BaseException — cioè tutto l'albero, incluso KeyboardInterrupt e SystemExit.
+except Exception: cattura solo il sottoalbero di Exception — lascia passare KeyboardInterrupt, SystemExit e GeneratorExit.
+
+In pratica except: è come dire
+"cattura qualsiasi cosa esista", 
+mentre except Exception: è come dire 
+"cattura solo gli errori di programma, lascia passare i segnali di sistema". 

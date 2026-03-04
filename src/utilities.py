@@ -9,7 +9,7 @@ def is_valid_ip(addr):
     try:
         ipaddress.ip_address(addr) #Controllo che che l'IP inserito sia un indirizzo IP valido
         return True
-    except:
+    except Exception:
         return False
 
 #PURPOSE: Check is domain name iserted by user is valid
@@ -17,13 +17,13 @@ def is_valid_domain(domain):
     try:
         socket.gethostbyname(domain)
         return True
-    except:
+    except Exception:
         return False
 
 #PURPOSE: Ask user for IP Address or Domain target
 def get_IP_target():
     while True:
-        target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() è per rimuovere spazi prima e dopo l'input nel caso ci fossero
+        target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() rimuove spazi prima e dopo l'input
         if target: #se ha inserito qualcosa, allora esegue il codice dentro l'if
             if is_valid_ip(target) or is_valid_domain(target):
                 return target
@@ -37,61 +37,61 @@ def get_port_target():
     while True:
         try:
            port = int(input(colorama.Fore.CYAN + "[PORT TARGET]: " + colorama.Style.RESET_ALL))
-           if port >= 1 and port <= 65535:
+           if 1 <= port <= 65535:
                return port
            else:
                print(colorama.Fore.RED + "[ERROR] Invalid port. Please enter a number between 1 and 65535.\n")
-        except (ValueError):
+        except ValueError:
             print(colorama.Fore.RED + "[ERROR] Invalid format. Use <port> (e.g. 80).\n")
+
+#PURPOSE: Return/get Port Service
+def get_port_service(port):
+    try:
+        return socket.getservbyport(port)
+    except Exception:
+        return "unknown"
 
 #PURPOSE: Print results of a scan
 def print_results(port, status_connection):
     if status_connection == 0:
         status = "OPEN"
-        try:
-            service = socket.getservbyport(port)
-        except:
-            service = "unknown"
-
-        banner = "No banner detected" #TODO sviluppa funzione banner
+        service = get_port_service(port)
+        banner = "No banner detected"
         print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<17}{banner}" + colorama.Style.RESET_ALL)
-    
     elif status_connection in (errno.ECONNREFUSED, 10061):
         status = "CLOSED"
         banner = "   -   "
-        try:
-            service = socket.getservbyport(port)
-        except:
-            service = "unknown"
+        service = get_port_service(port)
         print(colorama.Fore.RED + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
-
     elif status_connection in (errno.ETIMEDOUT, errno.EHOSTUNREACH, 10060, 10035):
         status = "FILTERED"
         banner = "   -   "
-        try:
-            service = socket.getservbyport(port)
-        except:
-            service = "unknown"
+        service = get_port_service(port)
         print(colorama.Fore.YELLOW + f"{port:<9}{status:<12}{service:<14}{banner}" + colorama.Style.RESET_ALL)
-
     else:
         status = f"ERROR (Codice: {status_connection})"
         print(status)
 
-
-#PURPOSE: Scan one single port
-def scan_port(ip, port):
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(5)
-
-    connection_result = s.connect_ex((ip, port)) 
-
+#PURPOSE: Print Scanner Header results
+def print_scanner_header():
     print("\nPORT     STATE       SERVICE         VERSION")
     print("─────    ────────    ───────         ─────────────────")
 
+#PURPOSE: Create new socket
+def create_new_socket():
+    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    new_socket.settimeout(3)
+    return new_socket
+
+#PURPOSE: Scan one single port / Create connection with single port
+def scan_port(ip, port):
+    s = create_new_socket()
+    connection_result = s.connect_ex((ip, port)) 
+
+    print_scanner_header()
+
     print_results(port, connection_result)
-    
-    s.close()
+    s.close() #REVIEW:con l'istruzione with si elimina questa riga, chiudendo automaticamente la socket, mettila più avanti
 
 #PURPOSE: Check if ports inserted are in [1-65535]
 def is_valid_range(port1, port2):
@@ -124,15 +124,11 @@ def get_port_range_target():
         
 #PURPOSE: Scan multiple ports
 def scan_ports(ip, first, last):
+    print_scanner_header()
 
-    print("\nPORT     STATE       SERVICE         VERSION")
-    print("─────    ────────    ───────         ─────────────────")
-
-    for port in range(int(first), int(last) + 1):
+    for port in range(first, last + 1):
     #devo creare sempre una nuova socket, una per ogni porta con cui sto cercando di connettermi
-        new_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        new_s.settimeout(3)
-
+        new_s = create_new_socket()
         connection_result = new_s.connect_ex((ip, port))
         print_results(port, connection_result)
         new_s.close()
