@@ -13,7 +13,7 @@ def scan_port(ip, port):
     connection_result = s.connect_ex((ip, port)) 
 
     output.print_scanner_header()
-    output.print_results(port, connection_result)
+    output.print_results(port, connection_result, s)
 
     s.close() #REVIEW:con l'istruzione with si elimina questa riga, chiudendo automaticamente la socket, mettila più avanti
         
@@ -25,5 +25,5 @@ def scan_ports(ip, first, last):
     #devo creare sempre una nuova socket, una per ogni porta con cui sto cercando di connettermi
         new_s = create_new_socket()
         connection_result = new_s.connect_ex((ip, port))
-        output.print_results(port, connection_result)
+        output.print_results(port, connection_result, new_s)
         new_s.close()

@@ -1,7 +1,5 @@
 import socket
 
-
-#codice banner grabbing
     #per farlo bene, va fatto personalizzato, quindi creare richieste diverse a seconda del servizio associato alla porta
     #inziamo con le top 10:
     #1. WEB: 80,443, 8080, 8443
@@ -13,6 +11,37 @@ import socket
 
     #QUALI DI QUESTI INVIANO BANNER AUTOMATICAMENTE?
     #22, 23, 21, 25, 587, 3306, 110, 143 
+
+###################################################################################################
+#PORTA 22 - SSH (Automatico) - OK
+#PORTA 23 - Telnet (Automatico)
+###################################################################################################
+def capture(s_socket):
+    try:
+        return s_socket.recv(1024).decode(errors="ignore").strip()
+    except:
+        return "No banner data"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     ###################################################################################################
     #PORTA 80

@@ -154,5 +154,25 @@ port_scanner/
 ├── validators.py     # is_valid_ip, is_valid_domain, is_valid_range
 ├── input_handlers.py # get_IP_target, get_port_target, get_port_range_target
 ├── output.py         # print_results, print_scanner_header, get_port_service
-└── banner_grabbing.py # già ce l'hai
+└── banner_grabbing.py # gestire il banner banner_grabbing
+
+
+
+
+
+BANNER GRABBING COME FUNZIONA?
+Il banner grabbing rappresenta l'informazione relativa alla versione di un servizio di una porta.
+
+- Come acquisire questa info?
+Invio pacchetti al ip e porta target e osservo i dati della risposta.
+
+- Cattura passiva o attiva:
+cattura passiva -> non interagisco direttamente con il target. Intercetto traffico già esistente 
+(es. sniffing), o consulto dati già raccolti. Non genero traffico verso il target.
+
+cattura attiva -> mi connetto direttamente al servizio e leggo il banner che il server invia in 
+risposta alla connessione (es. con netcat, telnet, o nmap). quello che faccio io in questo tool
+
+- Come dovrebbe essere il codice?
+recv() al momento in cui mi connetto, se riceve info bene altrimenti devo inviare io una richiesta personalizzata a seconda del servizio
 
