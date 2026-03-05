@@ -13,8 +13,14 @@ import socket
     #22, 23, 21, 25, 587, 3306, 110, 143 
 
 ###################################################################################################
+#PORTA 21 - FTP (Automatico) - ?
 #PORTA 22 - SSH (Automatico) - OK
-#PORTA 23 - Telnet (Automatico)
+#PORTA 23 - Telnet (Automatico) - ?
+#PORTA 25 - SMTP (Automatico) - ?
+#PORTA 110 - POP3 (Automatico) - ?
+#PORTA 143 - IMAP (Automatico) - ?
+#PORTA 587 - unknown (Automatico) - ?
+#PORTA 3306 - unknown (Automatico) - ?
 ###################################################################################################
 def capture(s_socket):
     try:
