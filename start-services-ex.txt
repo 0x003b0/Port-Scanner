@@ -1,0 +1,20 @@
+START FTP - PORT 21:
+sudo service vsftpd start
+sudo service vsftpd stop
+sudo service vsftpd status
+
+START SSH - PORT 22:
+sudo systemctl start ssh
+sudo systemctl stop ssh
+sudo systemctl status ssh
+
+START SMTP - PORT 25:
+sudo service postfix start
+sudo service postfix stop
+sudo service postfix status
+
+START POP3 - PORT 110:
+sudo service dovecot start
+sudo service dovecot stop
+sudo service dovecot status
+

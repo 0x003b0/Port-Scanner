@@ -1,4 +1,5 @@
 import socket
+import re
 
     #per farlo bene, va fatto personalizzato, quindi creare richieste diverse a seconda del servizio associato alla porta
     #inziamo con le top 10:
@@ -13,11 +14,11 @@ import socket
     #22, 23, 21, 25, 587, 3306, 110, 143 
 
 ###################################################################################################
-#PORTA 21 - FTP (Automatico) - ?
+#PORTA 21 - FTP (Automatico) - OK
 #PORTA 22 - SSH (Automatico) - OK
 #PORTA 23 - Telnet (Automatico) - ?
-#PORTA 25 - SMTP (Automatico) - ?
-#PORTA 110 - POP3 (Automatico) - ?
+#PORTA 25 - SMTP (Automatico) - OK
+#PORTA 110 - POP3 (Automatico) - OK
 #PORTA 143 - IMAP (Automatico) - ?
 #PORTA 587 - unknown (Automatico) - ?
 #PORTA 3306 - unknown (Automatico) - ?
@@ -26,8 +27,19 @@ def capture(port, s_socket):
     #TRY Nº1 -- SE RICEVE INFO AUTOMATICAMENTE ESEGUE QUESTO TRY
     try: 
         banner = s_socket.recv(1024).decode(errors="ignore").strip()
+        print(repr(banner)) #REVIEW: stampa dati grezzi mi serve per ora
         if banner:
-            return banner
+            #PORT 21 - serve regex perchè ci sono troppi dati e vanno filtrati
+            if port == 21:
+                match = re.search(r'\((.+?)\)', banner)
+                if match:
+                    return match.group(1)
+            #PORT 25: serve dividerlo perchè restituisce '220 kali.kali ESMTP Postfix (Debian)' e a me interessa solo "ESMTP Postfix (Debian)"
+            if port == 25:
+                parts = banner.split(" ", 2) #parts diventerebbe ['220', 'kali.kali', 'ESMTP Postfix (Debian)'] 
+                if parts[0].isdigit(): #isdigit() controlla che il primo elemento è un numero, infatti 220 lo è
+                    return parts[2].strip()
+        return banner #restituisce per tutte le altre porte (per la 22 non importa regex, va bene così)
     except socket.timeout:
         pass #cosa fa questo pass?
     except:
@@ -35,7 +47,7 @@ def capture(port, s_socket):
 
     #TRY Nº2 -- SE NON RICEVE INFO AUTOMATICAMENTE ESEGUE QUESTO TRY
     try: 
-        if port in (80, 443):
+        if port in (80, 8080):
             s_socket.send("GET / HTTP/1.0\r\n\r\n".encode())
             response =  s_socket.recv(1024).decode(errors="ignore")
 
