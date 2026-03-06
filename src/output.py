@@ -20,7 +20,7 @@ def print_results(port, status_connection, s_socket):
     if status_connection == 0:
         status = "OPEN"
         service = get_port_service(port)
-        banner = banner_grabbing.capture(s_socket)
+        banner = banner_grabbing.capture(port, s_socket)
         print(colorama.Fore.GREEN + f"{port:<9}{status:<12}{service:<16}{banner}" + colorama.Style.RESET_ALL)
     elif status_connection in (errno.ECONNREFUSED, 10061):
         status = "CLOSED"

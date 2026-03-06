@@ -4,7 +4,7 @@ import output
 #PURPOSE: Create new socket
 def create_new_socket():
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    new_socket.settimeout(3)
+    new_socket.settimeout(5)
     return new_socket
 
 #PURPOSE: Scan one single port / Create connection with single port
