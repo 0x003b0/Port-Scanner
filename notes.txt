@@ -176,3 +176,9 @@ risposta alla connessione (es. con netcat, telnet, o nmap). quello che faccio io
 - Come dovrebbe essere il codice?
 recv() al momento in cui mi connetto, se riceve info bene altrimenti devo inviare io una richiesta personalizzata a seconda del servizio
 
+
+
+
+
+
+find / -name "nmap-service-probes" 2>/dev/null

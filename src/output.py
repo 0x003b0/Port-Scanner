@@ -1,7 +1,9 @@
 import socket
 import colorama
 import errno
+import services_dictionary
 import banner_grabbing
+
 
 #PURPOSE: Print Scanner Header results
 def print_scanner_header():
@@ -12,8 +14,8 @@ def print_scanner_header():
 def get_port_service(port):
     try:
         return socket.getservbyport(port)
-    except Exception:
-        return "unknown"
+    except:
+        return services_dictionary.CUSTOM_SERVICES.get(port, "unknown")
 
 #PURPOSE: Print results of a scan
 def print_results(port, status_connection, s_socket):

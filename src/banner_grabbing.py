@@ -16,12 +16,12 @@ import re
 ###################################################################################################
 #PORTA 21 - FTP (Automatico) - OK
 #PORTA 22 - SSH (Automatico) - OK
-#PORTA 23 - Telnet (Automatico) - ?
+#PORTA 23 - Telnet (Automatico) - DA VEDERE
 #PORTA 25 - SMTP (Automatico) - OK
 #PORTA 110 - POP3 (Automatico) - OK
-#PORTA 143 - IMAP (Automatico) - ?
-#PORTA 587 - unknown (Automatico) - ?
-#PORTA 3306 - unknown (Automatico) - ?
+#PORTA 143 - IMAP (Automatico) - OK
+#PORTA 587 - unknown (Automatico) - OK ma complesso
+#PORTA 3306 - mysql (Automatico) - OK ma complesso
 ###################################################################################################
 def capture(port, s_socket):
     #TRY Nº1 -- SE RICEVE INFO AUTOMATICAMENTE ESEGUE QUESTO TRY
@@ -39,6 +39,9 @@ def capture(port, s_socket):
                 parts = banner.split(" ", 2) #parts diventerebbe ['220', 'kali.kali', 'ESMTP Postfix (Debian)'] 
                 if parts[0].isdigit(): #isdigit() controlla che il primo elemento è un numero, infatti 220 lo è
                     return parts[2].strip()
+            if port == 3306:
+                banner = repr(banner).strip('"') #rimuove virgolette "" da "F\x00\x00\x00j\x04Host '192.168.1.3' is not allowed to connect to this MariaDB server"
+                return banner
         return banner #restituisce per tutte le altre porte (per la 22 non importa regex, va bene così)
     except socket.timeout:
         pass #cosa fa questo pass?

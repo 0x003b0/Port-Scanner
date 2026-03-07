@@ -13,8 +13,18 @@ sudo service postfix start
 sudo service postfix stop
 sudo service postfix status
 
+------dovecot gestisce sia 110 che 143------
 START POP3 - PORT 110:
 sudo service dovecot start
 sudo service dovecot stop
 sudo service dovecot status
 
+START IMAP - PORT 143:
+sudo service dovecot start
+sudo service dovecot stop
+sudo service dovecot status
+
+START MYSQL - PORT 3306:
+sudo service mysql start
+sudo service mysql stop
+sudo service mysql status
