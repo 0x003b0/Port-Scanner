@@ -11,4 +11,5 @@ CUSTOM_SERVICES = {
     8443: "https-alt",
     3306: "mysql",
     5432: "postgresql",
+    6379: "redis"
 }

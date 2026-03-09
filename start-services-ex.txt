@@ -28,3 +28,32 @@ START MYSQL - PORT 3306:
 sudo service mysql start
 sudo service mysql stop
 sudo service mysql status
+
+#################################################
+SERVICES THAT REQUIRE REQUESTS TO SEND BANNER
+
+80 → OK
+443 → HTTPS — richiede SSL, la saltiamo per ora
+8080 → OK
+8443 → HTTPS alternativo — stesso problema SSL
+3389 → RDP (Windows Remote Desktop) — protocollo binario, complesso
+5900 → VNC — manda un banner automatico in realtà
+6379 → Redis — probe PING\r\n, risponde +PONG
+27017 → MongoDB — protocollo binario
+5432 → PostgreSQL — protocollo binario
+445 → SMB — protocollo binario, molto complesso
+#################################################
+START HTTP - PORT 80:
+sudo service apache2 start
+sudo service apache2 stop
+sudo service apache2 status
+
+START HTTP-PROXY - PORT 8080:
+python3 -m http.server 8080 (to start)
+Ctrl+C (to stop)
+
+START REDIS - PORT 6379:
+sudo service redis-server start
+sudo service redis-server stop
+sudo service redis-server status
+#cambia impostazioni perchè non visibile su redis.conf
