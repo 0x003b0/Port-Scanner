@@ -4,8 +4,9 @@
 #     chiave2: valore2,
 # }
 
-#PURPOSE: Port-to-service mapping dictionary
+#PURPOSE: Port-Service mapping dictionary
 CUSTOM_SERVICES = {
+    54: "xns-ch",
     587: "submission",
     8080: "http-proxy",
     8443: "https-alt",

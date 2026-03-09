@@ -23,3 +23,10 @@ def is_valid_range(port1, port2):
         return True
     else:
         return False
+
+#PURPOSE: Validate port inserted by user
+def is_valid_port(port):
+    if (1 <= port <= 65535):
+        return True
+    else:
+        return False

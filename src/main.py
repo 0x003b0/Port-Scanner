@@ -21,7 +21,8 @@ def program_title():
 def show_menu():
     print("\n[1] Scan a specific port")
     print("[2] Scan a range of ports")
-    print("[3] Exit\n")
+    print("[3] Scan multiple ports (e.g. 55,80,150,9200)")
+    print("[4] Exit\n")
 
 #PURPOSE: Handle the user choose
 def handle_user_choice(user_choose):
@@ -32,8 +33,12 @@ def handle_user_choice(user_choose):
     elif user_choose == 2:
         ip = input_handlers.get_IP_target()
         first_port, last_port = input_handlers.get_port_range_target()
-        scanner.scan_ports(ip, first_port, last_port)
+        scanner.scan_port_range(ip, first_port, last_port)
     elif user_choose == 3:
+        ip = input_handlers.get_IP_target()
+        ports_list = input_handlers.get_ports_target_separated_by_commas()
+        scanner.scan_ports(ip, ports_list)
+    elif user_choose == 4:
         print('Exiting...')
         sys.exit()
     else:

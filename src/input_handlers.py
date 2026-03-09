@@ -5,7 +5,7 @@ import validators
 def get_IP_target():
     while True:
         target = input(colorama.Fore.CYAN + "[IP / DOMAIN TARGET]: " + colorama.Style.RESET_ALL).strip() #strip() rimuove spazi prima e dopo l'input
-        if target: #se ha inserito qualcosa, allora esegue il codice dentro l'if
+        if target:
             if validators.is_valid_ip(target) or validators.is_valid_domain(target):
                 return target
             else:
@@ -18,7 +18,7 @@ def get_port_target():
     while True:
         try:
            port = int(input(colorama.Fore.CYAN + "[PORT TARGET]: " + colorama.Style.RESET_ALL))
-           if 1 <= port <= 65535:
+           if validators.is_valid_port(int(port)):
                return port
            else:
                print(colorama.Fore.RED + "[ERROR] Invalid port. Please enter a number between 1 and 65535.\n")
@@ -46,3 +46,22 @@ def get_port_range_target():
 
         except (ValueError, IndexError):
             print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <start>-<end> (e.g. 40-100).\n")
+
+#PURPOSE: Ask user for multiple Ports separated by comma/s
+def get_ports_target_separated_by_commas():
+    while True:
+        user_ports_comma_input = input(colorama.Fore.CYAN + "[PORTS TARGETS] (e.g.: 80,110,443): " + colorama.Style.RESET_ALL).strip()
+
+        try:
+            user_ports_comma = [n.strip() for n in user_ports_comma_input.split(",")] #rimuove le virgole e spazi creando una lista con n elementi chiamata user_ports_comma
+
+            if len(user_ports_comma) == 1:
+                raise ValueError
+            
+            if all(validators.is_valid_port(int(n)) for n in user_ports_comma):
+                return user_ports_comma
+            else:
+                print(colorama.Fore.RED + "[ERROR] Invalid port/s value/s. Valid ports must be between 1 and 65535.\n")  
+
+        except (ValueError, IndexError):
+            print(colorama.Fore.RED + "[ERROR] Invalid format. Use: <port1>,<port2>,... (e.g. 80,110).\n")
