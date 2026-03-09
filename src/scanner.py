@@ -19,6 +19,7 @@ def scan_port(ip, port):
 
 #PURPOSE: Connect to a single port and display result
 def _scan_single(ip, port):
+    """Connect to a single port and display result"""
     new_s = _create_new_socket()
     connection_result = new_s.connect_ex((ip, port))
     output.print_results(port, connection_result, new_s)

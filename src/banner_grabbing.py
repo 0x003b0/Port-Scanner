@@ -71,7 +71,7 @@ def capture(port, s_socket):
         return banner
     except socket.timeout:
         pass
-    except:
+    except (OSError, UnicodeDecodeError):
         return "No banner data"
     
     #services do not send banner automatically, need special requests
