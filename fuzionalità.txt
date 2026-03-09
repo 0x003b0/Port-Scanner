@@ -1,0 +1,6 @@
+1. Scan 1 port ✅
+2. Scan range of ports ✅
+3. Scan specific ports divides by virgola (e.g: 55,80,150,5901)
+4. Banner Grabbing ✅
+5. OS Fingerprint
+6. Threads (incrementa velocità dello scanner)

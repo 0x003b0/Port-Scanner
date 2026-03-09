@@ -1,27 +1,9 @@
 import socket
 import re
 
-    #per farlo bene, va fatto personalizzato, quindi creare richieste diverse a seconda del servizio associato alla porta
-    #inziamo con le top 10:
-    #1. WEB: 80,443, 8080, 8443
-    #2. ACCESSO REMOTO: 22(SSH), 23(Telnet)
-    #3. MAIL: 25, 110, 143, 587
-    #4. DATABASE: 3306(MySQL), 5432(Postgres)
-    #5. FILE SHARING: 21(FTP), 445(SMB)
-    #6. INDUSTRIA/IoT: 502(Modbus), 1883(MQTT)
+#SERVICES THAT SEND BANNER AUTOMATICALLY
+#22, 23, 21, 25, 587, 3306, 110, 143 
 
-    #QUALI DI QUESTI INVIANO BANNER AUTOMATICAMENTE?
-    #22, 23, 21, 25, 587, 3306, 110, 143 
-###################################################################################################
-#PORTA 21 - FTP (Automatico) - OK
-#PORTA 22 - SSH (Automatico) - OK
-#PORTA 23 - Telnet (Automatico) - DA VEDERE
-#PORTA 25 - SMTP (Automatico) - OK
-#PORTA 110 - POP3 (Automatico) - OK
-#PORTA 143 - IMAP (Automatico) - OK
-#PORTA 587 - unknown (Automatico) - OK ma complesso
-#PORTA 3306 - mysql (Automatico) - OK ma complesso
-###################################################################################################
 def port_21(banner):
     match = re.search(r'\((.+?)\)', banner)
     if match:
@@ -57,37 +39,47 @@ def port_80(s_socket):
         if line.lower().startswith("server:"): 
             return line.split(":")[1].strip() #prende la linea "Server: gws" con split divide la stringa in [Server, gws] e prende il secondo elemento [1] ovvero gws e leva gli spazi con strip()
 
+def port_6379(s_socket):
+    s_socket.send("INFO server\r\n".encode())
+    response = s_socket.recv(1024).decode(errors="ignore").strip()
+    for line in response.split("\n"):
+        if line.lower().startswith("redis_version:"): 
+            return line
+        
+def port_5901(banner):
+    if "RFB" in banner:
+        version = banner.split(" ")[1].strip()
+        parts = version.split(".")
+        return f"VNC (Protocol {int(parts[0])}.{int(parts[1])})" 
+    else:
+        return "No banner data"
 
-
-
-
-
-
-
-
-
+#PURPOSE: Main function to grab the Port Banner
 def capture(port, s_socket):
-    #TRY Nº1 -- SE RICEVE INFO AUTOMATICAMENTE ESEGUE QUESTO TRY
+    #services automatically send banner
     try: 
         banner = s_socket.recv(1024).decode(errors="ignore").strip()
-        print(repr(banner)) #REVIEW: stampa dati grezzi mi serve per ora
         if banner:
             if port == 21:
                 return port_21(banner)
-            if port == 25:
+            elif port == 25:
                 return port_25(banner)
-            if port == 3306:
+            elif port == 3306:
                 return port_3306(banner)
-        return banner #restituisce per tutte le altre porte (per la 22 non importa regex, va bene così)
+            elif port == 5901:
+                return port_5901(banner)
+        return banner
     except socket.timeout:
-        pass #cosa fa questo pass?
+        pass
     except:
         return "No banner data"
-
-    #TRY Nº2 -- SE NON RICEVE INFO AUTOMATICAMENTE ESEGUE QUESTO TRY
+    
+    #services do not send banner automatically, need special requests
     try: 
         if port in (80, 8080):
             return port_80(s_socket)
+        elif port == 6379:
+            return port_6379(s_socket)
         else:
             return "No banner data"
     except:

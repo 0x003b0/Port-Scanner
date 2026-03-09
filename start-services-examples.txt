@@ -56,4 +56,8 @@ START REDIS - PORT 6379:
 sudo service redis-server start
 sudo service redis-server stop
 sudo service redis-server status
-#cambia impostazioni perchè non visibile su redis.conf
+
+START VNC - PORT 5901:
+vncserver :1 (to start)
+vncserver -kill :1 (to stop)
+
